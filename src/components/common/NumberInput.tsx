@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 
 interface NumberInputProps {
   value: string;
@@ -12,7 +12,11 @@ interface NumberInputProps {
   inputMode?: 'text' | 'none' | 'numeric';
 }
 
-export const NumberInput: React.FC<NumberInputProps> = ({
+export interface NumberInputRef {
+  focus: () => void;
+}
+
+export const NumberInput = forwardRef<NumberInputRef, NumberInputProps>(({
   value,
   onChange,
   onSubmit,
@@ -22,14 +26,21 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   className,
   readOnly = false,
   inputMode = 'text',
-}) => {
+}, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // 親コンポーネントがfocusメソッドを呼べるようにする
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current?.focus();
+    }
+  }));
+
   useEffect(() => {
-    if (autoFocus && inputRef.current) {
+    if (autoFocus && inputRef.current && !readOnly) {
       inputRef.current.focus();
     }
-  }, [autoFocus]);
+  }, [autoFocus, readOnly]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -75,4 +86,6 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       className={finalClassName}
     />
   );
-};
+});
+
+NumberInput.displayName = 'NumberInput';

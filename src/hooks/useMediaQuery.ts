@@ -23,13 +23,12 @@ export function useMediaQuery(query: string): boolean {
 
 /**
  * モバイルデバイス（タブレット含む）かどうかを返すフック
- * タブレット横向き対応：幅または高さのどちらかが1024px未満ならtrue
+ * 幅が1024px未満の場合にtrueを返す
  * @returns モバイル・タブレットデバイスの場合true
  */
 export function useIsMobile(): boolean {
   const isNarrow = useMediaQuery('(max-width: 1023px)');
-  const isShort = useMediaQuery('(max-height: 1023px)');
-  return isNarrow || isShort;
+  return isNarrow;
 }
 
 /**

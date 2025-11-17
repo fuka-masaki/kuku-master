@@ -4,6 +4,7 @@ import {
   Button,
   Timer,
   NumberInput,
+  NumberInputRef,
   ProblemDisplay,
   CustomKeyboard,
 } from '@/components/common';
@@ -29,6 +30,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
   const attemptsRef = useRef<AttemptRecord[]>([]);
+  const inputRef = useRef<NumberInputRef>(null);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
@@ -68,6 +70,16 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
   useEffect(() => {
     setQuestionStartTime(Date.now());
   }, [currentIndex]);
+
+  // 大画面でカスタムキーボード非表示の場合、問題が変わったらフォーカスを当てる
+  useEffect(() => {
+    if (!isMobile && !isKeyboardVisible && !showCorrectAnswer && inputRef.current) {
+      // 少し遅延させてDOMの更新を待つ
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [currentIndex, showCorrectAnswer, isMobile, isKeyboardVisible]);
 
   const moveToNextQuestion = useCallback(() => {
     setShowCorrectAnswer(false);
@@ -432,6 +444,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
             {/* 入力欄 */}
             <div className="mt-8 flex flex-col items-center gap-4">
               <NumberInput
+                ref={inputRef}
                 value={userInput}
                 onChange={isKeyboardVisible ? () => {} : handleInputChange}
                 onSubmit={isKeyboardVisible ? () => {} : handleKeySubmit}
