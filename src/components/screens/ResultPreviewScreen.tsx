@@ -64,7 +64,7 @@ export const ResultPreviewScreen: React.FC<ResultPreviewScreenProps> = ({
   // 設定画面を表示
   return (
     <div
-      className={`min-h-screen bg-gradient-to-br from-white to-blue-50 transition-opacity duration-500 ${
+      className={`min-h-[100dvh] bg-gradient-to-br from-white to-blue-50 transition-opacity duration-500 ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
     >

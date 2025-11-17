@@ -48,23 +48,23 @@ export const PrintPreviewScreen: React.FC<PrintPreviewScreenProps> = ({
   const totalPagesWithAnswer = questionPageCount + 1;
 
   return (
-    <div className="min-h-screen bg-slate-50 print:bg-white print:p-0">
+    <div className="min-h-screen bg-slate-50 print:bg-white print:p-0 overflow-x-hidden">
       {/* 印刷プレビューヘッダー（印刷時は非表示） */}
-      <div className="no-print sticky top-0 z-10 bg-white shadow-lg py-3 px-6 mb-8">
+      <div className="no-print sticky top-0 z-10 bg-white shadow-lg py-2 sm:py-3 px-3 sm:px-6 mb-6 sm:mb-8">
         <div className="max-w-[210mm] mx-auto">
-          <div className="flex justify-between items-center mb-3">
-            <h1 className="text-xl font-bold">印刷プレビュー</h1>
-            <div className="flex gap-3">
-              <Button variant="secondary" onClick={onClose}>
+          <div className="flex justify-between items-center mb-2 sm:mb-3 gap-2">
+            <h1 className="text-base sm:text-xl font-bold flex-shrink-0">印刷プレビュー</h1>
+            <div className="flex gap-1.5 sm:gap-3 flex-shrink-0">
+              <Button variant="secondary" onClick={onClose} size="small" className="sm:px-6 sm:py-3 sm:text-base sm:min-h-[44px]">
                 戻る
               </Button>
-              <Button variant="primary" onClick={handlePrint}>
+              <Button variant="primary" onClick={handlePrint} size="small" className="sm:px-6 sm:py-3 sm:text-base sm:min-h-[44px]">
                 印刷する
               </Button>
             </div>
           </div>
           {/* 印刷時の注意書き */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-2.5 text-xs">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-2 sm:p-2.5 text-xs">
             <p className="font-semibold text-yellow-800 mb-0.5">📌 印刷時の注意</p>
             <p className="text-yellow-700">
               印刷ダイアログで「ヘッダーとフッター」のチェックを<span className="font-bold">外して</span>ください。
@@ -74,7 +74,7 @@ export const PrintPreviewScreen: React.FC<PrintPreviewScreenProps> = ({
       </div>
 
       {/* 印刷ページ - A4サイズで表示 */}
-      <div className="max-w-[210mm] mx-auto px-4 pb-12 print:p-0 print:m-0 print:max-w-none">
+      <div className="flex flex-col items-center px-4 pb-12 print:p-0 print:m-0 print:block">
         {/* 問題ページ */}
         {pages.map((pageQuestions, pageIndex) => (
           <PrintPage

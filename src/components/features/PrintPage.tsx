@@ -23,11 +23,11 @@ export const PrintPage: React.FC<PrintPageProps> = ({
   const isLastPage = pageNumber === totalPages;
 
   // 最後のページでは全ての問題の答えを表示
-  const questionsForAnswers = allQuestions || questions;
-  const allAnswers = questionsForAnswers.map((q) => ({
-    number: q.number,
-    answer: q.answerValue,
-  }));
+  // const questionsForAnswers = allQuestions || questions;
+  // const allAnswers = questionsForAnswers.map((q) => ({
+  //   number: q.number,
+  //   answer: q.answerValue,
+  // }));
 
   // 数字を括弧で囲む形式に統一（2回間違いは二重括弧）
   const getCircledNumber = (num: number, isDoubleWrong: boolean = false): string => {
@@ -35,7 +35,7 @@ export const PrintPage: React.FC<PrintPageProps> = ({
   };
 
   return (
-    <div className="print-page bg-white border border-gray-300 shadow-sm mb-8 w-full h-[297mm] mx-auto print:w-full print:max-w-none print:mb-0 print:shadow-none print:border-0 overflow-hidden">
+    <div className="print-page bg-white border border-gray-300 shadow-sm mb-8 min-h-[297mm] print:mb-0 print:shadow-none print:border-0 overflow-hidden">
 
       {/* プレビューと印刷で同じパディングを適用 */}
       <div className="p-[15mm]">

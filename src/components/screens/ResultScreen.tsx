@@ -30,7 +30,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
   const hasWrongAnswers = wrongAnswerRecords.length > 0;
 
   return (
-    <div className={`min-h-screen bg-slate-50 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`min-h-[100dvh] bg-slate-50 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div className="container mx-auto px-4 py-6 sm:py-8">
         {/* ヘッダー */}
         <header className="text-center mb-6 sm:mb-8">
@@ -113,7 +113,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
         )}
 
         {/* ボタン */}
-        <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 sm:gap-4">
+        <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 xs:mb-6 safe-area-inset-bottom">
           <Button
             variant="secondary"
             size="large"

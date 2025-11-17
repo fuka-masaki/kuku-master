@@ -22,11 +22,14 @@ export function useMediaQuery(query: string): boolean {
 }
 
 /**
- * モバイルデバイスかどうかを返すフック
- * @returns モバイルデバイスの場合true
+ * モバイルデバイス（タブレット含む）かどうかを返すフック
+ * タブレット横向き対応：幅または高さのどちらかが1024px未満ならtrue
+ * @returns モバイル・タブレットデバイスの場合true
  */
 export function useIsMobile(): boolean {
-  return useMediaQuery('(max-width: 767px)');
+  const isNarrow = useMediaQuery('(max-width: 1023px)');
+  const isShort = useMediaQuery('(max-height: 1023px)');
+  return isNarrow || isShort;
 }
 
 /**

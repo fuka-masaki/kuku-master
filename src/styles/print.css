@@ -65,6 +65,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 210mm;
   min-height: 297mm;
+  transform-origin: top center;
 }
 
 /* スクロール時のスムーズな体験 */
@@ -75,5 +76,54 @@
 
   .print-page:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* モバイル・タブレット対応 - transform scaleでA4レイアウトを維持したまま縮小 */
+
+/* 極小モバイル (〜374px): 0.42倍（左右に余白） */
+@media screen and (max-width: 374px) {
+  .print-page {
+    transform: scale(0.42);
+    margin-bottom: calc(-297mm * 0.58 + 2rem); /* 縮小した分のスペースを調整 */
+  }
+}
+
+/* 小型モバイル (375px〜479px): 0.44倍（左右に余白） */
+@media screen and (min-width: 375px) and (max-width: 479px) {
+  .print-page {
+    transform: scale(0.44);
+    margin-bottom: calc(-297mm * 0.56 + 2rem);
+  }
+}
+
+/* 中型モバイル (480px〜639px): 0.57倍（左右に余白） */
+@media screen and (min-width: 480px) and (max-width: 639px) {
+  .print-page {
+    transform: scale(0.57);
+    margin-bottom: calc(-297mm * 0.43 + 2rem);
+  }
+}
+
+/* 大型モバイル・小型タブレット (640px〜767px): 0.75倍（左右に余白） */
+@media screen and (min-width: 640px) and (max-width: 767px) {
+  .print-page {
+    transform: scale(0.75);
+    margin-bottom: calc(-297mm * 0.25 + 2rem);
+  }
+}
+
+/* タブレット (768px〜1023px): 0.88倍（左右に余白） */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .print-page {
+    transform: scale(0.88);
+    margin-bottom: calc(-297mm * 0.12 + 2rem);
+  }
+}
+
+/* デスクトップ (1024px〜): 等倍 */
+@media screen and (min-width: 1024px) {
+  .print-page {
+    transform: scale(1);
   }
 }

@@ -25,13 +25,13 @@ export const ProblemDisplay: React.FC<ProblemDisplayProps> = ({
   const sizeClasses = {
     small: 'text-2xl',
     medium: 'text-4xl',
-    large: 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl', // モバイル最適化
+    large: 'text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl', // モバイル最適化
   };
 
   const readingSize = {
     small: 'text-sm',
     medium: 'text-base',
-    large: 'text-xs sm:text-sm md:text-base lg:text-xl', // モバイル最適化：さらに小さく
+    large: 'text-[10px] xs:text-xs sm:text-sm md:text-base lg:text-xl', // モバイル最適化：さらに小さく
   };
 
   const NumberWithReading: React.FC<{
@@ -50,7 +50,7 @@ export const ProblemDisplay: React.FC<ProblemDisplayProps> = ({
   );
 
   return (
-    <div className="flex items-center justify-center gap-2 sm:gap-4 md:gap-6">
+    <div className="flex items-center justify-center gap-1 xs:gap-2 sm:gap-4 md:gap-6">
       <NumberWithReading
         value={multiplicand}
         readingText={reading?.multiplicand}

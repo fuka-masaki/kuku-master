@@ -8,6 +8,8 @@ interface NumberInputProps {
   autoFocus?: boolean;
   maxLength?: number;
   className?: string;
+  readOnly?: boolean;
+  inputMode?: 'text' | 'none' | 'numeric';
 }
 
 export const NumberInput: React.FC<NumberInputProps> = ({
@@ -18,6 +20,8 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   autoFocus = true,
   maxLength = 2,
   className,
+  readOnly = false,
+  inputMode = 'text',
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -59,13 +63,14 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     <input
       ref={inputRef}
       type="text"
-      inputMode="text"
+      inputMode={inputMode}
       enterKeyHint="next"
       pattern="[0-9]*"
       value={value}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
       disabled={disabled}
+      readOnly={readOnly}
       maxLength={maxLength}
       className={finalClassName}
     />

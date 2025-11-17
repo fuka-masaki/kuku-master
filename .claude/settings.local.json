@@ -27,7 +27,9 @@
       "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_ZsDy8o/**)",
       "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_i46Sc9/**)",
       "WebSearch",
-      "WebFetch(domain:stackoverflow.com)"
+      "WebFetch(domain:stackoverflow.com)",
+      "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_fAR5Jz/**)",
+      "Bash(npx tsc --noEmit)"
     ],
     "deny": [],
     "ask": []

@@ -35,12 +35,12 @@ export const Timer: React.FC<TimerProps> = ({
   // コンパクト版（モバイル用）
   if (compact) {
     return (
-      <div className="flex items-center gap-1.5 flex-1">
-        <span className="text-base">⏱</span>
-        <div className={`text-sm font-bold transition-all ${getColorClass(true)}`}>
+      <div className="flex items-center gap-1 xs:gap-1.5 flex-1">
+        <span className="text-sm xs:text-base">⏱</span>
+        <div className={`text-xs xs:text-sm font-bold transition-all ${getColorClass(true)}`}>
           {isOvertime && '+'}{formatTime(Math.abs(remainingSeconds))}
         </div>
-        <div className="flex-1 max-w-[64px] h-1.5 bg-blue-900/30 rounded-full overflow-hidden">
+        <div className="flex-1 max-w-[48px] xs:max-w-[64px] h-1 xs:h-1.5 bg-blue-900/30 rounded-full overflow-hidden">
           <div
             className={`h-full transition-all duration-1000 ${getProgressBarClass()}`}
             style={{ width: `${isOvertime ? 100 : percentage}%` }}
