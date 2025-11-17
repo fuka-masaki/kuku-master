@@ -6,7 +6,6 @@ import {
   NumberInput,
   ProblemDisplay,
 } from '@/components/common';
-import { FeedbackAnimation } from '@/components/features/FeedbackAnimation';
 import { generateProblems, getCorrectAnswer } from '@/utils/problemGenerator';
 import { useTimer } from '@/hooks/useTimer';
 import { usePageTransition } from '@/hooks/usePageTransition';
@@ -53,6 +52,42 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
     setQuestionStartTime(Date.now());
   }, [currentIndex]);
 
+  const moveToNextQuestion = useCallback(() => {
+    setShowCorrectAnswer(false);
+    setCorrectAnswer(null);
+    setUserInput('');
+    setShowAnimation(false);
+    setAnimationType(null);
+
+    if (currentIndex < problems.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    } else {
+      // 最後の問題の場合、結果画面へ遷移
+      timer.pause();
+      const totalTimeSpent = levelConfig.targetTime - timer.remainingSeconds;
+      setTimeout(() => onComplete(attemptsRef.current, totalTimeSpent), 0);
+    }
+  }, [currentIndex, problems.length, timer, levelConfig.targetTime, onComplete]);
+
+  // 不正解時のEnterキーリスナー
+  useEffect(() => {
+    if (!showCorrectAnswer) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // input要素からのイベントは無視（NumberInputからのバブリングを防ぐ）
+      if (e.target instanceof HTMLInputElement) return;
+
+      if (e.key === 'Enter') {
+        moveToNextQuestion();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [showCorrectAnswer, moveToNextQuestion]);
+
   const handleSubmit = useCallback(() => {
     if (!currentProblem) return;
 
@@ -90,30 +125,17 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
         if (currentIndex < problems.length - 1) {
           moveToNextQuestion();
         }
-      }, 800);
+      }, 500);
     } else {
-      // 不正解：アニメーション表示後、正解を表示
+      // 不正解：バッジを表示し続ける（次の問題に行くまで）
       setAnimationType('incorrect');
       setShowAnimation(true);
-      setTimeout(() => {
-        setShowAnimation(false);
-      }, 800);
 
       // 正解を表示
       setCorrectAnswer(answer);
       setShowCorrectAnswer(true);
     }
-  }, [currentProblem, userInput, questionStartTime, currentIndex, problems.length, timer, onComplete]);
-
-  const moveToNextQuestion = useCallback(() => {
-    setShowCorrectAnswer(false);
-    setCorrectAnswer(null);
-    setUserInput('');
-
-    if (currentIndex < problems.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    }
-  }, [currentIndex, problems.length]);
+  }, [currentProblem, userInput, questionStartTime, currentIndex, problems.length, timer, onComplete, moveToNextQuestion]);
 
   const handleInputChange = (value: string) => {
     if (!showCorrectAnswer) {
@@ -139,6 +161,34 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
   const getDisplayValues = () => {
     const { problem, questionType } = currentProblem;
 
+    // 不正解時の表示
+    if (showCorrectAnswer && correctAnswer !== null) {
+      switch (questionType) {
+        case 'normal':
+          // 通常問題：「=」の後に正解を表示
+          return {
+            multiplicand: problem.multiplicand,
+            multiplier: problem.multiplier,
+            answer: correctAnswer,
+          };
+        case 'missing_multiplicand':
+          // 穴埋め（被乗数）：「?」を正解に置き換え
+          return {
+            multiplicand: correctAnswer,
+            multiplier: problem.multiplier,
+            answer: problem.answer,
+          };
+        case 'missing_multiplier':
+          // 穴埋め（乗数）：「?」を正解に置き換え
+          return {
+            multiplicand: problem.multiplicand,
+            multiplier: correctAnswer,
+            answer: problem.answer,
+          };
+      }
+    }
+
+    // 通常時（解答前）の表示
     switch (questionType) {
       case 'normal':
         return {
@@ -163,22 +213,72 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 
   const displayValues = getDisplayValues();
 
+  // 不正解時に赤色で強調表示する部分を決定
+  const getHighlightPart = (): 'multiplicand' | 'multiplier' | 'answer' | undefined => {
+    if (!showCorrectAnswer) return undefined;
+
+    const { questionType } = currentProblem;
+    switch (questionType) {
+      case 'normal':
+        return 'answer';
+      case 'missing_multiplicand':
+        return 'multiplicand';
+      case 'missing_multiplier':
+        return 'multiplier';
+    }
+  };
+
+  const highlightPart = getHighlightPart();
+
   return (
-    <div className={`question-screen min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* ヘッダー */}
-      <header className="bg-white shadow-md py-3 px-4 sm:py-4 sm:px-6">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
-            レベル{levelConfig.id}: {levelConfig.title}
-          </h1>
-          <div className="text-xs sm:text-sm text-gray-600">
-            問題 {currentIndex + 1} / {problems.length}
+    <div className={`question-screen min-h-screen bg-slate-50 flex flex-col transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* ヘッダー - モバイル用コンパクト版 */}
+      <header className="bg-blue-600 shadow-lg py-2 px-3 sm:py-3 sm:px-4">
+        <div className="container mx-auto">
+          {/* モバイル：2行レイアウト */}
+          <div className="md:hidden">
+            {/* 1行目: レベル情報 + やめるボタン */}
+            <div className="flex items-center justify-between mb-1.5">
+              <h2 className="text-sm font-bold text-white truncate">
+                レベル{levelConfig.id}: {levelConfig.title}
+              </h2>
+              <button
+                onClick={onQuit}
+                className="text-xs text-white border border-white/60 hover:bg-white/10 px-2.5 py-1 rounded transition-all whitespace-nowrap ml-2 flex-shrink-0"
+              >
+                やめる
+              </button>
+            </div>
+
+            {/* 2行目: 問題番号 + タイマー */}
+            <div className="flex items-center gap-3">
+              <div className="text-xs font-semibold text-blue-100 whitespace-nowrap">
+                問題 {currentIndex + 1}/{problems.length}
+              </div>
+              <div className="text-blue-100 text-xs">•</div>
+              <Timer
+                remainingSeconds={timer.remainingSeconds}
+                totalSeconds={levelConfig.targetTime}
+                isOvertime={timer.isOvertime}
+                compact={true}
+              />
+            </div>
+          </div>
+
+          {/* デスクトップ：従来のレイアウト */}
+          <div className="hidden md:flex justify-between items-center">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white">
+              レベル{levelConfig.id}: {levelConfig.title}
+            </h1>
+            <div className="text-xs sm:text-sm text-blue-100">
+              問題 {currentIndex + 1} / {problems.length}
+            </div>
           </div>
         </div>
       </header>
 
-      {/* タイマー */}
-      <div className="py-4 sm:py-6">
+      {/* タイマー - デスクトップのみ表示 */}
+      <div className="hidden md:block py-4 sm:py-6">
         <Timer
           remainingSeconds={timer.remainingSeconds}
           totalSeconds={levelConfig.targetTime}
@@ -187,10 +287,26 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
       </div>
 
       {/* 問題表示 */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4">
-        <div className="question-container bg-white rounded-xl sm:rounded-2xl shadow-xl p-6 sm:p-8 md:p-12 max-w-4xl w-full mx-4 sm:mx-auto">
+      <div className="flex-1 flex flex-col items-center justify-start md:justify-center px-2 sm:px-4 pt-2 md:pt-0">
+        {/* フィードバック表示 - 固定高さを確保してカードのずれを防ぐ */}
+        <div className="h-8 sm:h-12 mb-1 sm:mb-2 md:mb-4 flex items-center justify-center">
+          {showAnimation && animationType && (
+            <div className={`
+              px-4 py-1 sm:px-6 sm:py-2 rounded-full shadow-lg font-bold text-base sm:text-xl
+              animate-slide-up
+              ${animationType === 'correct'
+                ? 'bg-green-500 text-white'
+                : 'bg-red-500 text-white'
+              }
+            `}>
+              {animationType === 'correct' ? '○せいかい' : <><span className="font-extrabold text-xl sm:text-2xl">×</span> ふせいかい</>}
+            </div>
+          )}
+        </div>
+
+        <div className="question-container bg-white rounded-xl sm:rounded-2xl shadow-2xl shadow-blue-500/10 p-3 sm:p-6 md:p-8 lg:p-12 max-w-4xl w-full mx-2 sm:mx-4">
           {levelConfig.id === 1 && (
-            <div className="text-center text-gray-600 mb-6">
+            <div className="hidden sm:block text-center text-slate-600 mb-2 sm:mb-4 md:mb-6 text-xs sm:text-sm md:text-base">
               れんしゅうちゅう
             </div>
           )}
@@ -202,16 +318,22 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
             reading={currentProblem.problem.reading}
             showReading={levelConfig.hasReading}
             questionType={currentProblem.questionType}
+            highlightPart={highlightPart}
           />
 
           {/* 入力欄 */}
-          <div className="mt-6 sm:mt-8 flex flex-col items-center gap-3 sm:gap-4">
+          <div className="mt-3 sm:mt-4 md:mt-6 lg:mt-8 flex flex-col items-center gap-2 sm:gap-3 md:gap-4">
             {showCorrectAnswer ? (
               <div className="text-center">
-                <div className="text-4xl sm:text-5xl font-bold text-red-500 mb-4">
-                  {correctAnswer}
-                </div>
-                <p className="text-sm sm:text-base text-gray-600">
+                <NumberInput
+                  value={userInput}
+                  onChange={() => {}}
+                  onSubmit={() => {}}
+                  disabled={true}
+                  autoFocus={false}
+                  className={`${isMobile ? 'w-20 h-14 text-3xl' : 'w-24 h-16 text-4xl'} border-red-500 bg-red-50`}
+                />
+                <p className="text-xs sm:text-sm md:text-base text-slate-600 mt-1 sm:mt-2 md:mt-4">
                   Enterを押して次の問題へ
                 </p>
               </div>
@@ -228,17 +350,12 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
         </div>
       </div>
 
-      {/* フッター */}
-      <div className="p-4 sm:p-6 flex justify-end">
+      {/* フッター - デスクトップのみ表示 */}
+      <div className="hidden md:flex p-4 sm:p-6 justify-end">
         <Button variant="danger" onClick={onQuit}>
           やめる
         </Button>
       </div>
-
-      {/* アニメーション */}
-      {showAnimation && animationType && (
-        <FeedbackAnimation type={animationType} />
-      )}
     </div>
   );
 };

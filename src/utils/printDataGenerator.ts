@@ -7,7 +7,7 @@ import {
 } from '@/types';
 import { formatTimeJapanese } from './timeUtils';
 
-const QUESTIONS_PER_PAGE = 15;
+const QUESTIONS_PER_PAGE = 24; // 2列レイアウトで最大24問（1列12問×2）
 
 /**
  * 印刷用の問題データを生成

@@ -21,7 +21,13 @@
       "Read(//Users/fukayamasaki/feature_Ticket009/**)",
       "Bash(git log:*)",
       "Read(//Users/fukayamasaki/**)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_m9csli/**)",
+      "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_raNwtu/**)",
+      "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_ZsDy8o/**)",
+      "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_i46Sc9/**)",
+      "WebSearch",
+      "WebFetch(domain:stackoverflow.com)"
     ],
     "deny": [],
     "ask": []

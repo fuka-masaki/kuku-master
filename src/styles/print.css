@@ -5,18 +5,35 @@
     display: none !important;
   }
 
-  /* ページサイズをB5に設定 */
+  /* ページサイズをA4に設定（ブラウザのヘッダー/フッターを非表示化） */
   @page {
-    size: B5;
-    margin: 15mm;
+    size: A4 portrait;
+    margin: 0; /* マージンをコンポーネント側で制御 */
+  }
+
+  /* ブラウザのヘッダー/フッターを非表示にする試み */
+  html {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
   }
 
   /* ページ区切り */
   .print-page {
     page-break-after: always;
-    page-break-inside: avoid;
+    page-break-inside: auto;
     box-shadow: none !important;
     margin: 0 !important;
+  }
+
+  /* 答えエリアは改ページを許可 */
+  .answer-section {
+    page-break-inside: auto;
   }
 
   .print-page:last-child {
@@ -34,10 +51,29 @@
   .shadow-xl {
     box-shadow: none !important;
   }
+
+  /* 印刷時のボディスタイル */
+  body {
+    margin: 0;
+    padding: 0;
+  }
 }
 
-/* プレビュー時のスタイル */
+/* プレビュー時のスタイル - A4用紙を再現 */
 .print-page {
   background: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 210mm;
+  min-height: 297mm;
+}
+
+/* スクロール時のスムーズな体験 */
+@media screen {
+  .print-page {
+    transition: box-shadow 0.2s ease;
+  }
+
+  .print-page:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
 }

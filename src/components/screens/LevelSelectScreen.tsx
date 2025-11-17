@@ -4,27 +4,29 @@ import { usePageTransition } from '@/hooks/usePageTransition';
 
 interface LevelSelectScreenProps {
   onLevelSelect: (levelId: number) => void;
+  onOpenResultPreview: () => void;
 }
 
 export const LevelSelectScreen: React.FC<LevelSelectScreenProps> = ({
   onLevelSelect,
+  onOpenResultPreview,
 }) => {
   const isVisible = usePageTransition();
   const levelConfigs = getLevelConfigs();
 
   return (
     <div
-      className={`min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 transition-opacity duration-500 ${
+      className={`min-h-screen bg-gradient-to-br from-white to-blue-50 transition-opacity duration-500 ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
     >
       <div className="container mx-auto px-4 py-6 sm:py-8">
         {/* ヘッダー */}
         <header className="text-center mb-8 sm:mb-12">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-blue-900 mb-4">
             九九マスター
           </h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-700">
+          <p className="text-base sm:text-lg md:text-xl text-slate-600">
             レベルをえらんで、ちょうせんしよう！
           </p>
         </header>
@@ -40,8 +42,18 @@ export const LevelSelectScreen: React.FC<LevelSelectScreenProps> = ({
           ))}
         </div>
 
+        {/* 開発用プレビューボタン */}
+        <div className="max-w-md mx-auto mt-8">
+          <button
+            onClick={onOpenResultPreview}
+            className="w-full py-3 px-6 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all border-2 border-amber-600"
+          >
+            🛠️ 結果画面プレビュー（開発用）
+          </button>
+        </div>
+
         {/* フッター */}
-        <footer className="text-center mt-12 text-sm text-gray-600">
+        <footer className="text-center mt-12 text-sm text-slate-500">
           <p>Bright 珠算教場</p>
         </footer>
       </div>

@@ -34,7 +34,12 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value.replace(/[^0-9]/g, '');
+    // 全角数字を半角数字に変換
+    const convertedValue = e.target.value.replace(/[０-９]/g, (s) => {
+      return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+    });
+    // 半角数字以外を除去
+    const newValue = convertedValue.replace(/[^0-9]/g, '');
     onChange(newValue);
   };
 
@@ -54,7 +59,8 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     <input
       ref={inputRef}
       type="text"
-      inputMode="numeric"
+      inputMode="text"
+      enterKeyHint="next"
       pattern="[0-9]*"
       value={value}
       onChange={handleChange}

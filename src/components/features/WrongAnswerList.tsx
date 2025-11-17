@@ -43,31 +43,26 @@ export const WrongAnswerList: React.FC<WrongAnswerListProps> = ({
         {wrongAnswers.map((record, index) => (
           <div
             key={index}
-            className={`p-4 rounded-lg border-2 ${
+            className={`relative p-4 rounded-lg border-2 ${
               record.wrongCount === 2
                 ? 'border-red-400 bg-red-50'
                 : 'border-orange-300 bg-orange-50'
             }`}
           >
-            <div className="flex items-center gap-2">
-              {record.wrongCount === 2 && (
-                <span className="text-xl">⭐</span>
-              )}
-              <span className="text-xl font-bold text-gray-800">
-                {formatProblem(record)}
-              </span>
-            </div>
             {record.wrongCount === 2 && (
-              <div className="text-xs text-red-600 mt-1">
-                2回間違えました
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+                ×2
               </div>
             )}
+            <div className="text-xl font-bold text-gray-800">
+              {formatProblem(record)}
+            </div>
           </div>
         ))}
       </div>
 
       <div className="mt-6 text-sm text-gray-600 text-center">
-        ⭐は2回間違えた問題です
+        赤いバッジ（×2）は2回間違えた問題です
       </div>
     </div>
   );
