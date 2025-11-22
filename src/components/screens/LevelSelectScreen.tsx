@@ -43,7 +43,7 @@ export const LevelSelectScreen: React.FC<LevelSelectScreenProps> = ({
         </div>
 
         {/* 開発用ボタン */}
-        {onOpenResultPreview && (
+        {/* {onOpenResultPreview && (
           <div className="max-w-md mx-auto mt-8">
             <button
               onClick={onOpenResultPreview}
@@ -52,7 +52,7 @@ export const LevelSelectScreen: React.FC<LevelSelectScreenProps> = ({
               🔧 結果画面プレビュー（開発用）
             </button>
           </div>
-        )}
+        )} */}
 
         {/* フッター */}
         <footer className="text-center mt-12 text-sm text-slate-500">
