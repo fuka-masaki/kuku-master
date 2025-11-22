@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LevelSelectScreen, QuestionScreen, ResultScreen, PrintPreviewScreen, ResultPreviewScreen } from '@/components/screens';
+import { LevelSelectScreen, QuestionScreen, ResultScreen, PrintPreviewScreen/*, ResultPreviewScreen*/ } from '@/components/screens';
 import { getLevelConfig } from '@/data/dataLoader';
 import { AttemptRecord, LevelResult } from '@/types';
 import { createLevelResult } from '@/utils/resultAnalyzer';
@@ -56,9 +56,9 @@ function App() {
     setCurrentScreen('result');
   };
 
-  const handleOpenResultPreview = () => {
-    setCurrentScreen('resultPreview');
-  };
+  // const handleOpenResultPreview = () => {
+  //   setCurrentScreen('resultPreview');
+  // };
 
   const levelConfig = selectedLevel ? getLevelConfig(selectedLevel) : null;
 
@@ -67,7 +67,7 @@ function App() {
       {currentScreen === 'levelSelect' && (
         <LevelSelectScreen
           onLevelSelect={handleLevelSelect}
-          onOpenResultPreview={handleOpenResultPreview}
+          // onOpenResultPreview={handleOpenResultPreview} // 本番環境用にコメントアウト
         />
       )}
 
@@ -96,11 +96,11 @@ function App() {
         />
       )}
 
-      {currentScreen === 'resultPreview' && (
+      {/* {currentScreen === 'resultPreview' && (
         <ResultPreviewScreen
           onBackToLevelSelect={handleBackToLevelSelect}
         />
-      )}
+      )} */}
     </div>
   );
 }
