@@ -78,7 +78,15 @@ export const ProblemDisplay: React.FC<ProblemDisplayProps> = ({
         readingText={reading?.multiplicand}
         isHighlighted={highlightPart === 'multiplicand'}
       />
-      <span className={`${sizeClasses[size]} font-bold text-slate-700`}>×</span>
+      <div className="flex flex-col items-center">
+        {showReading && reading && (
+          <span className={`${readingSize[size]} mb-0.5 sm:mb-1 text-transparent`}>
+            {/* 空のスペーサー（他の要素と高さを揃える） */}
+            &nbsp;
+          </span>
+        )}
+        <span className={`${sizeClasses[size]} font-bold text-slate-700`}>×</span>
+      </div>
       <NumberWithReading
         value={multiplier}
         readingText={reading?.multiplier}
