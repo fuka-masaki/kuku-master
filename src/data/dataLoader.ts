@@ -1,6 +1,7 @@
 import { MultiplicationProblem, LevelConfig } from '@/types';
 import multiplicationProblemsData from './multiplicationProblems.json';
 import levelConfigsData from './levelConfigs.json';
+import { BUFFER_TIME } from '@/constants/timeSettings';
 
 /**
  * 九九の問題データを取得
@@ -31,7 +32,18 @@ export function getProblemsByRange(min: number, max: number): MultiplicationProb
 }
 
 /**
+ * targetTimeを動的に計算する
+ *
+ * @param config - JSONから読み込んだレベル設定
+ * @returns 計算されたtargetTime（秒）
+ */
+function calculateTargetTime(config: typeof levelConfigsData[0]): number {
+  return config.totalQuestions * config.timePerQuestion + BUFFER_TIME;
+}
+
+/**
  * レベル設定を取得
+ * targetTimeは動的に計算される: (totalQuestions × timePerQuestion) + BUFFER_TIME
  *
  * @returns 全7つのレベル設定
  * @example
@@ -39,7 +51,10 @@ export function getProblemsByRange(min: number, max: number): MultiplicationProb
  * console.log(configs.length); // 7
  */
 export function getLevelConfigs(): LevelConfig[] {
-  return levelConfigsData as LevelConfig[];
+  return levelConfigsData.map((config) => ({
+    ...config,
+    targetTime: calculateTargetTime(config),
+  })) as LevelConfig[];
 }
 
 /**

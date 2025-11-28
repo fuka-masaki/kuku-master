@@ -18,11 +18,11 @@ function shuffle<T>(array: T[]): T[] {
 }
 
 /**
- * ランダムな問題形式を取得（穴あきチャレンジ用）
+ * 穴あきチャレンジ用の問題形式を取得
+ * 常に乗数（真ん中の数字）を穴あきにする
  */
-function getRandomQuestionType(): QuestionType {
-  const types: QuestionType[] = ['normal', 'missing_multiplicand', 'missing_multiplier'];
-  return types[Math.floor(Math.random() * types.length)];
+function getHoleQuestionType(): QuestionType {
+  return 'missing_multiplier';
 }
 
 /**
@@ -46,7 +46,7 @@ export function generateProblems(config: LevelConfig): ProblemInstance[] {
     roundProblems.forEach((problem) => {
       allProblems.push({
         problem,
-        questionType: config.isHoleQuestion ? getRandomQuestionType() : 'normal',
+        questionType: config.isHoleQuestion ? getHoleQuestionType() : 'normal',
         index: allProblems.length,
         roundNumber: round as 1 | 2,
       });

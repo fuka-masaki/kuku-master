@@ -7,7 +7,6 @@
     "questionsPerRound": 50,
     "timePerQuestion": 3,
     "totalTime": 300,
-    "targetTime": 300,
     "hasReading": true,
     "isRandom": false,
     "range": {
@@ -24,7 +23,6 @@
     "questionsPerRound": 40,
     "timePerQuestion": 3,
     "totalTime": 240,
-    "targetTime": 240,
     "hasReading": true,
     "isRandom": false,
     "range": {
@@ -41,7 +39,6 @@
     "questionsPerRound": 90,
     "timePerQuestion": 3,
     "totalTime": 270,
-    "targetTime": 270,
     "hasReading": true,
     "isRandom": false,
     "range": {
@@ -58,7 +55,6 @@
     "questionsPerRound": 90,
     "timePerQuestion": 3,
     "totalTime": 270,
-    "targetTime": 270,
     "hasReading": false,
     "isRandom": false,
     "range": {
@@ -75,7 +71,6 @@
     "questionsPerRound": 90,
     "timePerQuestion": 3,
     "totalTime": 270,
-    "targetTime": 270,
     "hasReading": true,
     "isRandom": true,
     "range": {
@@ -92,7 +87,6 @@
     "questionsPerRound": 90,
     "timePerQuestion": 3,
     "totalTime": 270,
-    "targetTime": 270,
     "hasReading": false,
     "isRandom": true,
     "range": {
@@ -109,7 +103,6 @@
     "questionsPerRound": 90,
     "timePerQuestion": 3,
     "totalTime": 270,
-    "targetTime": 270,
     "hasReading": false,
     "isRandom": true,
     "range": {

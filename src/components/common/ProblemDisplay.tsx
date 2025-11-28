@@ -35,7 +35,7 @@ export const ProblemDisplay: React.FC<ProblemDisplayProps> = ({
     small: 'text-2xl',
     medium: 'text-4xl',
     large: shouldCompact
-      ? 'text-2xl sm:text-3xl' // iPad横向き+キーボード表示時：コンパクト
+      ? 'text-4xl sm:text-5xl' // iPad横向き+キーボード表示時：大きく
       : isIPad
       ? 'text-3xl sm:text-4xl' // iPad縦向き：コンパクト
       : 'text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl', // モバイル・デスクトップ最適化
@@ -45,7 +45,7 @@ export const ProblemDisplay: React.FC<ProblemDisplayProps> = ({
     small: 'text-sm',
     medium: 'text-base',
     large: shouldCompact
-      ? 'text-[10px] sm:text-xs' // iPad横向き+キーボード表示時：小さい読み仮名
+      ? 'text-xs sm:text-sm' // iPad横向き+キーボード表示時：読み仮名も大きく
       : isIPad
       ? 'text-xs sm:text-sm' // iPad縦向き：コンパクトな読み仮名
       : 'text-[10px] xs:text-xs sm:text-sm md:text-base lg:text-xl', // モバイル・デスクトップ最適化

@@ -25,35 +25,35 @@ export const CustomKeyboard: React.FC<CustomKeyboardProps> = ({
     ['1', '2', '3'],
   ];
 
-  // iPad用のサイズクラス（よりコンパクト）
-  // 横向きの場合はさらに高さを抑える
+  // iPad用のサイズクラス
+  // 縦向き・横向きともに大きめのボタンを使用（押し間違い防止）
   const buttonHeightClass = isLandscape
-    ? 'h-9 sm:h-10'
+    ? 'h-14 sm:h-16'
     : isIPad
-      ? 'h-11 sm:h-12'
+      ? 'h-14 sm:h-16'
       : 'h-12 xs:h-14 sm:h-16';
 
   const buttonTextClass = isLandscape
-    ? 'text-lg sm:text-xl'
+    ? 'text-2xl sm:text-3xl'
     : isIPad
-      ? 'text-xl sm:text-2xl'
+      ? 'text-2xl sm:text-3xl'
       : 'text-2xl xs:text-3xl';
 
   const clearTextClass = isLandscape
-    ? 'text-sm sm:text-base'
+    ? 'text-lg sm:text-xl'
     : isIPad
-      ? 'text-base sm:text-lg'
+      ? 'text-lg sm:text-xl'
       : 'text-lg xs:text-xl';
 
   const submitTextClass = isLandscape
-    ? 'text-base sm:text-lg'
+    ? 'text-xl sm:text-2xl'
     : isIPad
-      ? 'text-lg sm:text-xl'
+      ? 'text-xl sm:text-2xl'
       : 'text-xl xs:text-2xl';
 
-  const gapClass = isLandscape ? 'gap-1.5' : isIPad ? 'gap-2' : 'gap-2 xs:gap-3';
-  const marginClass = isLandscape ? 'mb-1.5' : isIPad ? 'mb-2' : 'mb-2 xs:mb-3';
-  const bottomMarginClass = isLandscape ? 'mb-1.5 sm:mb-2' : isIPad ? 'mb-2 sm:mb-3' : 'mb-4 xs:mb-6';
+  const gapClass = isLandscape ? 'gap-3' : isIPad ? 'gap-3' : 'gap-2 xs:gap-3';
+  const marginClass = isLandscape ? 'mb-3' : isIPad ? 'mb-3' : 'mb-2 xs:mb-3';
+  const bottomMarginClass = isLandscape ? 'mb-3 sm:mb-4' : isIPad ? 'mb-3 sm:mb-4' : 'mb-4 xs:mb-6';
 
   return (
     <div className={`custom-keyboard w-full mx-auto ${isIPad ? 'max-w-lg px-4 sm:px-6' : 'max-w-md px-3 xs:px-4'}`}>
